@@ -27,7 +27,7 @@ def test_4_city_example():
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
-def test_refined_5_city_example():
+def test_5_city_example():
     adj = [
         [0, 60, 20, 10, 100],
         [60, 0, 15, 100, 20],
@@ -41,7 +41,7 @@ def test_refined_5_city_example():
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
-def test_refined_6_city_example():
+def test_6_city_example():
     adj = [
         [0, 40, 20, 55, 35, 25],
         [40, 0, 30, 25, 60, 75],
@@ -55,3 +55,20 @@ def test_refined_6_city_example():
     cost, path = solve_tsp_with_bnb(adj)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
+
+def test_7_city_example():
+    adj = [
+    [0, 10, 15, 20, 25, 30, 35],
+    [10, 0, 35, 40, 45, 50, 55],
+    [15, 35, 0, 30, 60, 65, 70],
+    [20, 40, 30, 0, 55, 60, 65],
+    [25, 45, 60, 55, 0, 50, 75],
+    [30, 50, 65, 60, 50, 0, 80],
+    [35, 55, 70, 65, 75, 80, 0]
+    ]
+    expected_cost = 290
+    expected_path = [0, 2, 3, 4, 5, 1, 6, 0]
+    cost, path = solve_tsp_with_bnb(adj)
+    assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
+    assert path == expected_path, f"Expected path {expected_path}, got {path}"
+
