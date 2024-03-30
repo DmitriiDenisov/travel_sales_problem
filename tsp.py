@@ -1,79 +1,81 @@
 import math
 
-def tsp_branch_and_bound(adj):
-    N = len(adj)
-    final_path = [None] * (N + 1)
-    visited = [False] * N
-    final_res = float('inf')
 
-    def copy_to_final(curr_path):
-        final_path[:N + 1] = curr_path[:]
-        final_path[N] = curr_path[0]
+def solve_tsp_with_bnb(distance_matrix):
+    city_count = len(distance_matrix)
+    optimal_route = [None] * (city_count + 1)
+    has_visited = [False] * city_count
+    best_cost = float('infinity')
 
-    def first_min(adj, i):
-        min_val = float('inf')
-        for k in range(N):
-            if adj[i][k] < min_val and i != k:
-                min_val = adj[i][k]
-        return min_val
+    def finalize_route(route_so_far):
+        optimal_route[:city_count + 1] = route_so_far[:]
+        optimal_route[city_count] = route_so_far[0]
 
-    def second_min(adj, i):
-        first, second = float('inf'), float('inf')
-        for j in range(N):
-            if i == j:
+    def minimum_edge(distance_matrix, node):
+        min_distance = float('infinity')
+        for k in range(city_count):
+            if distance_matrix[node][k] < min_distance and node != k:
+                min_distance = distance_matrix[node][k]
+        return min_distance
+
+    def next_minimum_edge(distance_matrix, node):
+        min_one, min_two = float('infinity'), float('infinity')
+        for j in range(city_count):
+            if node == j:
                 continue
-            if adj[i][j] <= first:
-                second = first
-                first = adj[i][j]
-            elif adj[i][j] <= second and adj[i][j] != first:
-                second = adj[i][j]
-        return second
+            if distance_matrix[node][j] <= min_one:
+                min_two = min_one
+                min_one = distance_matrix[node][j]
+            elif distance_matrix[node][j] <= min_two and distance_matrix[node][j] != min_one:
+                min_two = distance_matrix[node][j]
+        return min_two
 
-    def TSPRec(adj, curr_bound, curr_weight, level, curr_path, visited):
-        nonlocal final_res
-        if level == N:
-            if adj[curr_path[level - 1]][curr_path[0]] != 0:
-                curr_res = curr_weight + adj[curr_path[level - 1]][curr_path[0]]
-                if curr_res < final_res:
-                    copy_to_final(curr_path)
-                    final_res = curr_res
+    def explore_routes(distance_matrix, current_bound, current_cost, level, route_so_far, has_visited):
+        nonlocal best_cost
+        if level == city_count:
+            if distance_matrix[route_so_far[level - 1]][route_so_far[0]] != 0:
+                current_result = current_cost + distance_matrix[route_so_far[level - 1]][route_so_far[0]]
+                if current_result < best_cost:
+                    finalize_route(route_so_far)
+                    best_cost = current_result
             return
 
-        for i in range(N):
-            if adj[curr_path[level - 1]][i] != 0 and not visited[i]:
-                temp = curr_bound
-                curr_weight += adj[curr_path[level - 1]][i]
+        for i in range(city_count):
+            if distance_matrix[route_so_far[level - 1]][i] != 0 and not has_visited[i]:
+                temp_bound = current_bound
+                current_cost += distance_matrix[route_so_far[level - 1]][i]
 
                 if level == 1:
-                    curr_bound -= ((first_min(adj, curr_path[level - 1]) + first_min(adj, i)) / 2)
+                    current_bound -= ((minimum_edge(distance_matrix, route_so_far[level - 1]) + minimum_edge(
+                        distance_matrix, i)) / 2)
                 else:
-                    curr_bound -= ((second_min(adj, curr_path[level - 1]) + first_min(adj, i)) / 2)
+                    current_bound -= ((next_minimum_edge(distance_matrix, route_so_far[level - 1]) + minimum_edge(
+                        distance_matrix, i)) / 2)
 
-                if curr_bound + curr_weight < final_res:
-                    curr_path[level] = i
-                    visited[i] = True
-                    TSPRec(adj, curr_bound, curr_weight, level + 1, curr_path, visited)
+                if current_bound + current_cost < best_cost:
+                    route_so_far[level] = i
+                    has_visited[i] = True
+                    explore_routes(distance_matrix, current_bound, current_cost, level + 1, route_so_far, has_visited)
 
-                curr_weight -= adj[curr_path[level - 1]][i]
-                curr_bound = temp
+                current_cost -= distance_matrix[route_so_far[level - 1]][i]
+                current_bound = temp_bound
 
-                visited = [False] * len(visited)
+                has_visited = [False] * len(has_visited)
                 for j in range(level):
-                    if curr_path[j] != -1:
-                        visited[curr_path[j]] = True
+                    if route_so_far[j] != -1:
+                        has_visited[route_so_far[j]] = True
 
-    curr_bound = 0
-    curr_path = [-1] * (N + 1)
-    visited = [False] * N
+    initial_bound = 0
+    route_so_far = [-1] * (city_count + 1)
+    has_visited = [False] * city_count
 
-    for i in range(N):
-        curr_bound += (first_min(adj, i) + second_min(adj, i))
+    for i in range(city_count):
+        initial_bound += (minimum_edge(distance_matrix, i) + next_minimum_edge(distance_matrix, i))
 
-    curr_bound = math.ceil(curr_bound / 2)
+    initial_bound = math.ceil(initial_bound / 2)
 
-    visited[0] = True
-    curr_path[0] = 0
+    has_visited[0] = True
+    route_so_far[0] = 0
 
-    TSPRec(adj, curr_bound, 0, 1, curr_path, visited)
-    return final_res, final_path
-
+    explore_routes(distance_matrix, initial_bound, 0, 1, route_so_far, has_visited)
+    return best_cost, optimal_route

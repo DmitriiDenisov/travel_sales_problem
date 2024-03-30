@@ -1,4 +1,4 @@
-from tsp import tsp_branch_and_bound
+from tsp import solve_tsp_with_bnb
 
 def test_3_city_example():
     adj = [
@@ -8,7 +8,7 @@ def test_3_city_example():
     ]
     expected_cost = 55
     expected_path = [0, 1, 2, 0]
-    cost, path = tsp_branch_and_bound(adj)
+    cost, path = solve_tsp_with_bnb(adj)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
@@ -21,7 +21,7 @@ def test_4_city_example():
     ]
     expected_cost = 80  # Update this based on the actual expected cost
     expected_path = [0, 1, 3, 2, 0]  # Update this based on the actual expected path
-    cost, path = tsp_branch_and_bound(adj)
+    cost, path = solve_tsp_with_bnb(adj)
     print(cost)
     print(path)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
@@ -37,7 +37,7 @@ def test_refined_5_city_example():
     ]
     expected_cost = 90
     expected_path = [0, 2, 1, 4, 3, 0]
-    cost, path = tsp_branch_and_bound(adj)
+    cost, path = solve_tsp_with_bnb(adj)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
@@ -52,6 +52,6 @@ def test_refined_6_city_example():
     ]
     expected_cost = 130
     expected_path = [0, 2, 1, 3, 4, 5, 0]
-    cost, path = tsp_branch_and_bound(adj)
+    cost, path = solve_tsp_with_bnb(adj)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
     assert path == expected_path, f"Expected path {expected_path}, got {path}"
