@@ -76,6 +76,6 @@ def solve_tsp_with_bnb(distance_matrix):
 
     has_visited[0] = True
     route_so_far[0] = 0
-
+    # def explore_routes(distance_matrix, current_bound, current_cost, level, route_so_far, has_visited):
     explore_routes(distance_matrix, initial_bound, 0, 1, route_so_far, has_visited)
     return best_cost, optimal_route
