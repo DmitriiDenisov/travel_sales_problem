@@ -98,7 +98,7 @@ def connect_hulls_optimized(points):
 
 
 # Example usage
-points = generate_points(13)
+points = generate_points(700)
 hulls, connections, excluded_edges = connect_hulls_optimized(points)
 total_distance = calculate_total_distance(hulls, connections, excluded_edges)
 
