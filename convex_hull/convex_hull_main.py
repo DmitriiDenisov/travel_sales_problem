@@ -104,10 +104,11 @@ def convex_hull_solver(points):
     return total_distance, hulls, connections, excluded_edges
 
 
-# Example usage
-points = calculate_distances(generate_points(15))
+def plot_example():
+    # Example usage
+    points = generate_points(15)
 
-total_distance, hulls, connections, excluded_edges = convex_hull_solver(points)
-print(f"Total distance traveled by the path: {total_distance:.2f}")
-plot_hulls_and_connections_plotly(points, hulls, connections, excluded_edges)
-# plot_hulls_and_connections_seaborn(points, hulls, connections, excluded_edges)
+    total_distance, hulls, connections, excluded_edges = convex_hull_solver(points)
+    print(f"Total distance traveled by the path: {total_distance:.2f}")
+    plot_hulls_and_connections_plotly(points, hulls, connections, excluded_edges)
+    # plot_hulls_and_connections_seaborn(points, hulls, connections, excluded_edges)
