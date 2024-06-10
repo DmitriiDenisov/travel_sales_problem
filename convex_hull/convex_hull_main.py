@@ -2,7 +2,8 @@ from scipy.spatial import ConvexHull
 import numpy as np
 
 from convex_hull.plot_utils import plot_hulls_and_connections_plotly
-from convex_hull.utils import generate_points, calculate_total_distance
+from convex_hull.utils import calculate_total_distance
+from generation_utils import generate_points, calculate_distances
 
 
 def find_nearest_points_between_hulls(hull_1_points, hull_2_points):
@@ -97,11 +98,16 @@ def connect_hulls_optimized(points):
     return hulls, all_connections, excluded_edges
 
 
-# Example usage
-points = generate_points(700)
-hulls, connections, excluded_edges = connect_hulls_optimized(points)
-total_distance = calculate_total_distance(hulls, connections, excluded_edges)
+def convex_hull_solver(points):
+    hulls, connections, excluded_edges = connect_hulls_optimized(points)
+    total_distance = calculate_total_distance(hulls, connections, excluded_edges)
+    return total_distance, hulls, connections, excluded_edges
 
+
+# Example usage
+points = calculate_distances(generate_points(15))
+
+total_distance, hulls, connections, excluded_edges = convex_hull_solver(points)
 print(f"Total distance traveled by the path: {total_distance:.2f}")
 plot_hulls_and_connections_plotly(points, hulls, connections, excluded_edges)
 # plot_hulls_and_connections_seaborn(points, hulls, connections, excluded_edges)

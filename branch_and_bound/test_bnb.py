@@ -1,9 +1,6 @@
 import numpy as np
-import sys, os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from aco import ant_colony_solver
-
+from bnb import branch_and_bound_solver
 
 def test_3_city_example():
     points = np.array([
@@ -13,10 +10,9 @@ def test_3_city_example():
     ])
     expected_cost = 55
     expected_path = [0, 1, 2, 0]
-    reversed_path = list(reversed(expected_path))
-    cost, path = ant_colony_solver(points, iterations=200, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100)
+    cost, path = branch_and_bound_solver(points)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
-    assert path in [expected_path, reversed_path], f"Expected path {expected_path}, got {path}"
+    assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
 def test_4_city_example():
     points = np.array([
@@ -27,12 +23,11 @@ def test_4_city_example():
     ])
     expected_cost = 86  # Update this based on the actual expected cost
     expected_path = [0, 1, 3, 2, 0]  # Update this based on the actual expected path
-    reversed_path = list(reversed(expected_path))
-    cost, path = ant_colony_solver(points, iterations=200, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100)
+    cost, path = branch_and_bound_solver(points)
     print(cost)
     print(path)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
-    assert path in [expected_path, reversed_path] , f"Expected path {expected_path}, got {path}"
+    assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
 def test_5_city_example():
     points = np.array([
@@ -45,10 +40,9 @@ def test_5_city_example():
 
     expected_cost = 214
     expected_path = [0, 1, 2, 4, 3, 0]
-    reversed_path = list(reversed(expected_path))
-    cost, path = ant_colony_solver(points, iterations=200, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100)
+    cost, path = branch_and_bound_solver(points)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
-    assert path in [expected_path, reversed_path] , f"Expected path {expected_path}, got {path}"
+    assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
 def test_6_city_example():
     points = np.array([
@@ -61,10 +55,9 @@ def test_6_city_example():
     ])
     expected_cost = 233
     expected_path = [0, 1, 2, 4, 3, 5, 0]
-    reversed_path = list(reversed(expected_path))
-    cost, path = ant_colony_solver(points, iterations=400, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100)
+    cost, path = branch_and_bound_solver(points)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
-    assert path in [expected_path, reversed_path], f"Expected path {expected_path}, got {path}"
+    assert path == expected_path, f"Expected path {expected_path}, got {path}"
 
 def test_7_city_example():
     points = np.array([
@@ -78,8 +71,5 @@ def test_7_city_example():
     ])
     expected_cost = 275
 
-    cost, path = ant_colony_solver(points, iterations=400, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100)
-    print(cost)
+    cost, path = branch_and_bound_solver(points)
     assert cost == expected_cost, f"Expected cost {expected_cost}, got {cost}"
-    # don't check the exact path because there are too many possible paths
-    # assert path in [expected_path], f"Expected path {expected_path}, got {path}"

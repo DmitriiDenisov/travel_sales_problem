@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+from generation_utils import calculate_distances
+
 
 class OptimizedGraph:
     def __init__(self, distance, default_pheromone_level=None):
@@ -45,7 +47,8 @@ def update_pheromones(graph, tours, Q, rho):
     graph.pheromone = graph.pheromone * (1 - rho) + delta_pheromone
 
 
-def optimize_with_aco(distance_matrix, iterations=100, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100):
+def ant_colony_solver(points, iterations=100, n_ants=10, alpha=1, beta=2, rho=0.5, Q=100):
+    distance_matrix = calculate_distances(points)
     graph = OptimizedGraph(distance_matrix)
     best_tour = None
     best_length = float('inf')

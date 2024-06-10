@@ -27,7 +27,3 @@ def calculate_total_distance(hulls, connections, excluded_edges):
 
     return total_distance
 
-def generate_points(n_points=30):
-    points = np.random.rand(n_points, 2) * 100
-    points = np.round(points, 2)
-    return points

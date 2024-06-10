@@ -15,7 +15,7 @@ def calculate_distances(points):
         for j in range(i + 1, n):
             distances[i, j] = np.linalg.norm(points[i] - points[j])
             distances[j, i] = distances[i, j]
-    return distances
+    return np.round(distances)
 
 
 def distort_distances(distances):
@@ -96,21 +96,22 @@ def main(n):
 
     return points, placed_points, discrepancy
 
-# Генерация и отображение результатов
-n = 10
-original_points, placed_points, discrepancy = main(n)
+def plot():
+    # Генерация и отображение результатов
+    n = 10
+    original_points, placed_points, discrepancy = main(n)
 
-print(f'Discrepancy: {discrepancy}')
+    print(f'Discrepancy: {discrepancy}')
 
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 2, 1)
-plt.scatter(original_points[:, 0], original_points[:, 1], c='blue', label='Original Points')
-plt.title('Original Points')
-plt.legend()
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 2, 1)
+    plt.scatter(original_points[:, 0], original_points[:, 1], c='blue', label='Original Points')
+    plt.title('Original Points')
+    plt.legend()
 
-plt.subplot(1, 2, 2)
-plt.scatter(placed_points[:, 0], placed_points[:, 1], c='red', label='Placed Points')
-plt.title('Placed Points')
-plt.legend()
+    plt.subplot(1, 2, 2)
+    plt.scatter(placed_points[:, 0], placed_points[:, 1], c='red', label='Placed Points')
+    plt.title('Placed Points')
+    plt.legend()
 
-plt.show()
+    plt.show()

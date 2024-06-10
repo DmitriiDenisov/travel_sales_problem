@@ -1,7 +1,12 @@
 import math
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from generation_utils import calculate_distances
 
 
-def solve_tsp_with_bnb(distance_matrix):
+def branch_and_bound_solver(points):
+    distance_matrix = calculate_distances(points)
     city_count = len(distance_matrix)
     optimal_route = [None] * (city_count + 1)
     has_visited = [False] * city_count
